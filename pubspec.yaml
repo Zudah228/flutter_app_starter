@@ -65,5 +65,7 @@ dev_dependencies:
   riverpod_generator: *riverpod_version
   drift_dev: *drift_version
 
+  # Launcher Icons
+  flutter_launcher_icons: ^0.13.1
 flutter:
   uses-material-design: true
