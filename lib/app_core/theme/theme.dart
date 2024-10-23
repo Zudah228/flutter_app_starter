@@ -20,12 +20,19 @@ abstract final class MainAppThemeData {
   }
 
   static ThemeData _base(ColorScheme colorScheme, TextTheme textTheme) {
-    final foundation =
-        ThemeData(colorScheme: colorScheme, textTheme: textTheme);
+    final foundation = ThemeData(
+      colorScheme: colorScheme,
+      textTheme: textTheme,
+    );
 
     return foundation.copyWith(
       cardTheme: const CardTheme(
         clipBehavior: Clip.antiAlias,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: colorScheme.surfaceContainer,
+        border: const OutlineInputBorder(),
       ),
     );
   }

@@ -18,6 +18,12 @@ class $MyAddressesTable extends MyAddresses
       requiredDuringInsert: false,
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _postCodeMeta =
+      const VerificationMeta('postCode');
+  @override
+  late final GeneratedColumn<String> postCode = GeneratedColumn<String>(
+      'post_code', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _prefectureMeta =
       const VerificationMeta('prefecture');
   @override
@@ -41,11 +47,10 @@ class $MyAddressesTable extends MyAddresses
   late final GeneratedColumn<String> address2 = GeneratedColumn<String>(
       'address2', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _googlemapUrlMeta =
-      const VerificationMeta('googlemapUrl');
+  static const VerificationMeta _urlMeta = const VerificationMeta('url');
   @override
-  late final GeneratedColumn<String> googlemapUrl = GeneratedColumn<String>(
-      'googlemap_url', aliasedName, true,
+  late final GeneratedColumn<String> url = GeneratedColumn<String>(
+      'url', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _updatedAtMeta =
       const VerificationMeta('updatedAt');
@@ -55,7 +60,7 @@ class $MyAddressesTable extends MyAddresses
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, prefecture, city, address1, address2, googlemapUrl, updatedAt];
+      [id, postCode, prefecture, city, address1, address2, url, updatedAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -68,6 +73,12 @@ class $MyAddressesTable extends MyAddresses
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('post_code')) {
+      context.handle(_postCodeMeta,
+          postCode.isAcceptableOrUnknown(data['post_code']!, _postCodeMeta));
+    } else if (isInserting) {
+      context.missing(_postCodeMeta);
     }
     if (data.containsKey('prefecture')) {
       context.handle(
@@ -95,11 +106,9 @@ class $MyAddressesTable extends MyAddresses
     } else if (isInserting) {
       context.missing(_address2Meta);
     }
-    if (data.containsKey('googlemap_url')) {
+    if (data.containsKey('url')) {
       context.handle(
-          _googlemapUrlMeta,
-          googlemapUrl.isAcceptableOrUnknown(
-              data['googlemap_url']!, _googlemapUrlMeta));
+          _urlMeta, url.isAcceptableOrUnknown(data['url']!, _urlMeta));
     }
     if (data.containsKey('updated_at')) {
       context.handle(_updatedAtMeta,
@@ -115,9 +124,11 @@ class $MyAddressesTable extends MyAddresses
   @override
   MyAddress map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return MyAddress(
+    return MyAddress.fromDb(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      postCode: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}post_code'])!,
       prefecture: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}prefecture'])!,
       city: attachedDatabase.typeMapping
@@ -126,10 +137,10 @@ class $MyAddressesTable extends MyAddresses
           .read(DriftSqlType.string, data['${effectivePrefix}address1'])!,
       address2: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}address2'])!,
-      googlemapUrl: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}googlemap_url']),
       updatedAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+      url: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}url']),
     );
   }
 
@@ -139,206 +150,79 @@ class $MyAddressesTable extends MyAddresses
   }
 }
 
-class MyAddress extends DataClass implements Insertable<MyAddress> {
-  final int id;
-  final String prefecture;
-  final String city;
-  final String address1;
-  final String address2;
-  final String? googlemapUrl;
-  final DateTime updatedAt;
-  const MyAddress(
-      {required this.id,
-      required this.prefecture,
-      required this.city,
-      required this.address1,
-      required this.address2,
-      this.googlemapUrl,
-      required this.updatedAt});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['prefecture'] = Variable<String>(prefecture);
-    map['city'] = Variable<String>(city);
-    map['address1'] = Variable<String>(address1);
-    map['address2'] = Variable<String>(address2);
-    if (!nullToAbsent || googlemapUrl != null) {
-      map['googlemap_url'] = Variable<String>(googlemapUrl);
-    }
-    map['updated_at'] = Variable<DateTime>(updatedAt);
-    return map;
-  }
-
-  MyAddressesCompanion toCompanion(bool nullToAbsent) {
-    return MyAddressesCompanion(
-      id: Value(id),
-      prefecture: Value(prefecture),
-      city: Value(city),
-      address1: Value(address1),
-      address2: Value(address2),
-      googlemapUrl: googlemapUrl == null && nullToAbsent
-          ? const Value.absent()
-          : Value(googlemapUrl),
-      updatedAt: Value(updatedAt),
-    );
-  }
-
-  factory MyAddress.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return MyAddress(
-      id: serializer.fromJson<int>(json['id']),
-      prefecture: serializer.fromJson<String>(json['prefecture']),
-      city: serializer.fromJson<String>(json['city']),
-      address1: serializer.fromJson<String>(json['address1']),
-      address2: serializer.fromJson<String>(json['address2']),
-      googlemapUrl: serializer.fromJson<String?>(json['googlemapUrl']),
-      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'prefecture': serializer.toJson<String>(prefecture),
-      'city': serializer.toJson<String>(city),
-      'address1': serializer.toJson<String>(address1),
-      'address2': serializer.toJson<String>(address2),
-      'googlemapUrl': serializer.toJson<String?>(googlemapUrl),
-      'updatedAt': serializer.toJson<DateTime>(updatedAt),
-    };
-  }
-
-  MyAddress copyWith(
-          {int? id,
-          String? prefecture,
-          String? city,
-          String? address1,
-          String? address2,
-          Value<String?> googlemapUrl = const Value.absent(),
-          DateTime? updatedAt}) =>
-      MyAddress(
-        id: id ?? this.id,
-        prefecture: prefecture ?? this.prefecture,
-        city: city ?? this.city,
-        address1: address1 ?? this.address1,
-        address2: address2 ?? this.address2,
-        googlemapUrl:
-            googlemapUrl.present ? googlemapUrl.value : this.googlemapUrl,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
-  MyAddress copyWithCompanion(MyAddressesCompanion data) {
-    return MyAddress(
-      id: data.id.present ? data.id.value : this.id,
-      prefecture:
-          data.prefecture.present ? data.prefecture.value : this.prefecture,
-      city: data.city.present ? data.city.value : this.city,
-      address1: data.address1.present ? data.address1.value : this.address1,
-      address2: data.address2.present ? data.address2.value : this.address2,
-      googlemapUrl: data.googlemapUrl.present
-          ? data.googlemapUrl.value
-          : this.googlemapUrl,
-      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('MyAddress(')
-          ..write('id: $id, ')
-          ..write('prefecture: $prefecture, ')
-          ..write('city: $city, ')
-          ..write('address1: $address1, ')
-          ..write('address2: $address2, ')
-          ..write('googlemapUrl: $googlemapUrl, ')
-          ..write('updatedAt: $updatedAt')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      id, prefecture, city, address1, address2, googlemapUrl, updatedAt);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is MyAddress &&
-          other.id == this.id &&
-          other.prefecture == this.prefecture &&
-          other.city == this.city &&
-          other.address1 == this.address1 &&
-          other.address2 == this.address2 &&
-          other.googlemapUrl == this.googlemapUrl &&
-          other.updatedAt == this.updatedAt);
-}
-
 class MyAddressesCompanion extends UpdateCompanion<MyAddress> {
   final Value<int> id;
+  final Value<String> postCode;
   final Value<String> prefecture;
   final Value<String> city;
   final Value<String> address1;
   final Value<String> address2;
-  final Value<String?> googlemapUrl;
+  final Value<String?> url;
   final Value<DateTime> updatedAt;
   const MyAddressesCompanion({
     this.id = const Value.absent(),
+    this.postCode = const Value.absent(),
     this.prefecture = const Value.absent(),
     this.city = const Value.absent(),
     this.address1 = const Value.absent(),
     this.address2 = const Value.absent(),
-    this.googlemapUrl = const Value.absent(),
+    this.url = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
   MyAddressesCompanion.insert({
     this.id = const Value.absent(),
+    required String postCode,
     required String prefecture,
     required String city,
     required String address1,
     required String address2,
-    this.googlemapUrl = const Value.absent(),
+    this.url = const Value.absent(),
     required DateTime updatedAt,
-  })  : prefecture = Value(prefecture),
+  })  : postCode = Value(postCode),
+        prefecture = Value(prefecture),
         city = Value(city),
         address1 = Value(address1),
         address2 = Value(address2),
         updatedAt = Value(updatedAt);
   static Insertable<MyAddress> custom({
     Expression<int>? id,
+    Expression<String>? postCode,
     Expression<String>? prefecture,
     Expression<String>? city,
     Expression<String>? address1,
     Expression<String>? address2,
-    Expression<String>? googlemapUrl,
+    Expression<String>? url,
     Expression<DateTime>? updatedAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (postCode != null) 'post_code': postCode,
       if (prefecture != null) 'prefecture': prefecture,
       if (city != null) 'city': city,
       if (address1 != null) 'address1': address1,
       if (address2 != null) 'address2': address2,
-      if (googlemapUrl != null) 'googlemap_url': googlemapUrl,
+      if (url != null) 'url': url,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
   }
 
   MyAddressesCompanion copyWith(
       {Value<int>? id,
+      Value<String>? postCode,
       Value<String>? prefecture,
       Value<String>? city,
       Value<String>? address1,
       Value<String>? address2,
-      Value<String?>? googlemapUrl,
+      Value<String?>? url,
       Value<DateTime>? updatedAt}) {
     return MyAddressesCompanion(
       id: id ?? this.id,
+      postCode: postCode ?? this.postCode,
       prefecture: prefecture ?? this.prefecture,
       city: city ?? this.city,
       address1: address1 ?? this.address1,
       address2: address2 ?? this.address2,
-      googlemapUrl: googlemapUrl ?? this.googlemapUrl,
+      url: url ?? this.url,
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
@@ -348,6 +232,9 @@ class MyAddressesCompanion extends UpdateCompanion<MyAddress> {
     final map = <String, Expression>{};
     if (id.present) {
       map['id'] = Variable<int>(id.value);
+    }
+    if (postCode.present) {
+      map['post_code'] = Variable<String>(postCode.value);
     }
     if (prefecture.present) {
       map['prefecture'] = Variable<String>(prefecture.value);
@@ -361,8 +248,8 @@ class MyAddressesCompanion extends UpdateCompanion<MyAddress> {
     if (address2.present) {
       map['address2'] = Variable<String>(address2.value);
     }
-    if (googlemapUrl.present) {
-      map['googlemap_url'] = Variable<String>(googlemapUrl.value);
+    if (url.present) {
+      map['url'] = Variable<String>(url.value);
     }
     if (updatedAt.present) {
       map['updated_at'] = Variable<DateTime>(updatedAt.value);
@@ -374,11 +261,12 @@ class MyAddressesCompanion extends UpdateCompanion<MyAddress> {
   String toString() {
     return (StringBuffer('MyAddressesCompanion(')
           ..write('id: $id, ')
+          ..write('postCode: $postCode, ')
           ..write('prefecture: $prefecture, ')
           ..write('city: $city, ')
           ..write('address1: $address1, ')
           ..write('address2: $address2, ')
-          ..write('googlemapUrl: $googlemapUrl, ')
+          ..write('url: $url, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
         .toString();
@@ -399,21 +287,23 @@ abstract class _$AppDriftDatabase extends GeneratedDatabase {
 typedef $$MyAddressesTableCreateCompanionBuilder = MyAddressesCompanion
     Function({
   Value<int> id,
+  required String postCode,
   required String prefecture,
   required String city,
   required String address1,
   required String address2,
-  Value<String?> googlemapUrl,
+  Value<String?> url,
   required DateTime updatedAt,
 });
 typedef $$MyAddressesTableUpdateCompanionBuilder = MyAddressesCompanion
     Function({
   Value<int> id,
+  Value<String> postCode,
   Value<String> prefecture,
   Value<String> city,
   Value<String> address1,
   Value<String> address2,
-  Value<String?> googlemapUrl,
+  Value<String?> url,
   Value<DateTime> updatedAt,
 });
 
@@ -429,6 +319,9 @@ class $$MyAddressesTableFilterComposer
   ColumnFilters<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
+  ColumnFilters<String> get postCode => $composableBuilder(
+      column: $table.postCode, builder: (column) => ColumnFilters(column));
+
   ColumnFilters<String> get prefecture => $composableBuilder(
       column: $table.prefecture, builder: (column) => ColumnFilters(column));
 
@@ -441,8 +334,8 @@ class $$MyAddressesTableFilterComposer
   ColumnFilters<String> get address2 => $composableBuilder(
       column: $table.address2, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get googlemapUrl => $composableBuilder(
-      column: $table.googlemapUrl, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get url => $composableBuilder(
+      column: $table.url, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get updatedAt => $composableBuilder(
       column: $table.updatedAt, builder: (column) => ColumnFilters(column));
@@ -460,6 +353,9 @@ class $$MyAddressesTableOrderingComposer
   ColumnOrderings<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get postCode => $composableBuilder(
+      column: $table.postCode, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<String> get prefecture => $composableBuilder(
       column: $table.prefecture, builder: (column) => ColumnOrderings(column));
 
@@ -472,9 +368,8 @@ class $$MyAddressesTableOrderingComposer
   ColumnOrderings<String> get address2 => $composableBuilder(
       column: $table.address2, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get googlemapUrl => $composableBuilder(
-      column: $table.googlemapUrl,
-      builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get url => $composableBuilder(
+      column: $table.url, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
       column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
@@ -492,6 +387,9 @@ class $$MyAddressesTableAnnotationComposer
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
+  GeneratedColumn<String> get postCode =>
+      $composableBuilder(column: $table.postCode, builder: (column) => column);
+
   GeneratedColumn<String> get prefecture => $composableBuilder(
       column: $table.prefecture, builder: (column) => column);
 
@@ -504,8 +402,8 @@ class $$MyAddressesTableAnnotationComposer
   GeneratedColumn<String> get address2 =>
       $composableBuilder(column: $table.address2, builder: (column) => column);
 
-  GeneratedColumn<String> get googlemapUrl => $composableBuilder(
-      column: $table.googlemapUrl, builder: (column) => column);
+  GeneratedColumn<String> get url =>
+      $composableBuilder(column: $table.url, builder: (column) => column);
 
   GeneratedColumn<DateTime> get updatedAt =>
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
@@ -538,38 +436,42 @@ class $$MyAddressesTableTableManager extends RootTableManager<
               $$MyAddressesTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
+            Value<String> postCode = const Value.absent(),
             Value<String> prefecture = const Value.absent(),
             Value<String> city = const Value.absent(),
             Value<String> address1 = const Value.absent(),
             Value<String> address2 = const Value.absent(),
-            Value<String?> googlemapUrl = const Value.absent(),
+            Value<String?> url = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
           }) =>
               MyAddressesCompanion(
             id: id,
+            postCode: postCode,
             prefecture: prefecture,
             city: city,
             address1: address1,
             address2: address2,
-            googlemapUrl: googlemapUrl,
+            url: url,
             updatedAt: updatedAt,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
+            required String postCode,
             required String prefecture,
             required String city,
             required String address1,
             required String address2,
-            Value<String?> googlemapUrl = const Value.absent(),
+            Value<String?> url = const Value.absent(),
             required DateTime updatedAt,
           }) =>
               MyAddressesCompanion.insert(
             id: id,
+            postCode: postCode,
             prefecture: prefecture,
             city: city,
             address1: address1,
             address2: address2,
-            googlemapUrl: googlemapUrl,
+            url: url,
             updatedAt: updatedAt,
           ),
           withReferenceMapper: (p0) => p0

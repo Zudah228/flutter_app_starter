@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../components/routes/no_animation_route.dart';
+import '../../app_core/routes/no_animation_route.dart';
 import '../my_address/my_address_page.dart';
 
 class HomePage extends StatelessWidget {
