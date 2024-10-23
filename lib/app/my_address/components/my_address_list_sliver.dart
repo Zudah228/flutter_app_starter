@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../infrastructure/drift/drift_database.dart';
+import '../../../infrastructure/drift/drift_database.dart';
 import '../../../components/async/empty_message.dart';
 
 class MyAddressListSliver extends ConsumerWidget {

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../res/constants.dart';
+import '../../app/res/constants.dart';
 import 'error_view.dart';
 
 class AsyncValueSwitcher<T> extends StatelessWidget {
