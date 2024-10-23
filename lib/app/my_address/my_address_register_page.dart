@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app_core/snack_bar.dart';
 import '../../app_core/unfocused_gesture_detecter.dart';
-import '../../domain/my_address/my_address.dart';
+import '../../domain/my_address/my_address_repository.dart';
 import 'components/my_address_form.dart';
 
 class MyAddressRegisterPage extends ConsumerStatefulWidget {
@@ -23,16 +24,41 @@ class MyAddressRegisterPage extends ConsumerStatefulWidget {
 }
 
 class _MyAddressRegisterPageState extends ConsumerState<MyAddressRegisterPage> {
-  MyAddress? _value;
+  MyAddressFormValue? _value;
 
-  void _onChanged(MyAddress? value) {
+  void _onChanged(MyAddressFormValue? value) {
     setState(() {
       _value = value;
     });
   }
 
   Future<void> _save() async {
-    // TODO(tsuda): 住所の保存処理
+    try {
+      final value = _value;
+
+      if (value == null) {
+        return;
+      }
+
+      await ref.read(myAddressRepositoryProvider).insert(
+            postCode: value.postCode,
+            city: value.city,
+            address1: value.address1,
+            address2: value.address2,
+            description: value.description,
+            disabled: value.disabled,
+            prefecture: value.prefecture,
+            url: value.url,
+          );
+
+      showSnackBar(message: '住所を保存しました');
+
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      showErrorSnackBar(message: '保存に失敗しました');
+    }
   }
 
   @override
@@ -53,6 +79,7 @@ class _MyAddressRegisterPageState extends ConsumerState<MyAddressRegisterPage> {
             child: Column(
               children: [
                 MyAddressForm(onChanged: _onChanged),
+                const SizedBox(height: kMinInteractiveDimension + 40)
               ],
             ),
           ),

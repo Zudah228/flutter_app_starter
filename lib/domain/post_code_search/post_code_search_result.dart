@@ -11,11 +11,9 @@ part 'post_code_search_result.g.dart';
 @freezed
 class PostCodeSearchResult with _$PostCodeSearchResult {
   const factory PostCodeSearchResult({
-    required String zipcode,
-    required String prefcode,
-    required String address1,
-    required String address2,
-    required String address3,
+    @JsonKey(name: 'address1') required String prefecture,
+    @JsonKey(name: 'address2') required String city,
+    @JsonKey(name: 'address3') required String address,
     required String kana1,
     required String kana2,
     required String kana3,

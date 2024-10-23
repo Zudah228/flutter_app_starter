@@ -2,25 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ClipboardPasteButton extends StatelessWidget {
-  const ClipboardPasteButton({super.key});
+  const ClipboardPasteButton({super.key, required this.onPressed});
+
+  final ValueChanged<String> onPressed;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () async {
-        final state = context.findAncestorStateOfType<FormFieldState<String>>();
-
-        if (state == null) {
-          return;
-        }
-
         final data = await Clipboard.getData('text/plain');
         final text = data?.text;
 
         if (text == null) {
           return;
         }
-        state.didChange(text);
+        onPressed(text);
       },
       icon: const Icon(Icons.paste),
     );

@@ -11,6 +11,8 @@ class MyAddresses extends Table {
   TextColumn get address2 => text()();
   TextColumn get url => text().nullable()();
   DateTimeColumn get updatedAt => dateTime()();
+  BoolColumn get disabled => boolean()();
+  TextColumn get description => text().nullable()();
 }
 
 @immutable
@@ -23,8 +25,8 @@ class MyAddress {
     required this.address1,
     required this.address2,
     required this.updatedAt,
-    this.url,
-    this.description,
+    required this.url,
+    required this.description,
     this.disabled = false,
   });
 

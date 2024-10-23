@@ -1,11 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app_core/forms/clipboard_paste_button.dart';
 import '../../../app_core/forms/form_headline.dart';
+import '../../../app_core/snack_bar.dart';
 import '../../../domain/my_address/my_address.dart';
 import '../../../domain/post_code_search/post_code_search_repository.dart';
 import '../../../domain/post_code_search/post_code_search_result.dart';
+
+@immutable
+class MyAddressFormValue {
+  const MyAddressFormValue({
+    required this.postCode,
+    required this.prefecture,
+    required this.city,
+    required this.address1,
+    required this.address2,
+    required this.url,
+    required this.description,
+    required this.disabled,
+  });
+
+  final String postCode;
+  final String prefecture;
+  final String city;
+  final String address1;
+  final String address2;
+  final String? url;
+  final String? description;
+  final bool disabled;
+
+  @override
+  String toString() {
+    return 'MyAddressFormValue($postCode)';
+  }
+
+  MyAddress toEntity(int id, {required DateTime updatedAt}) {
+    return MyAddress.fromDb(
+      id: id,
+      postCode: postCode,
+      prefecture: prefecture,
+      city: city,
+      address1: address1,
+      address2: address2,
+      updatedAt: updatedAt,
+      description: description,
+      disabled: disabled,
+      url: url,
+    );
+  }
+}
 
 class MyAddressForm extends StatefulWidget {
   const MyAddressForm({
@@ -15,7 +60,7 @@ class MyAddressForm extends StatefulWidget {
   });
 
   final MyAddress? initialValue;
-  final ValueChanged<MyAddress?> onChanged;
+  final ValueChanged<MyAddressFormValue?> onChanged;
 
   @override
   State<StatefulWidget> createState() => _MyAddressFormState();
@@ -31,9 +76,9 @@ class _MyAddressFormState extends State<MyAddressForm> {
   late final TextEditingController _urlController;
 
   void _onSearch(PostCodeSearchResult result) {
-    _prefectureController.text = result.address1;
-    _cityController.text = result.address2;
-    _address1Controller.text = result.address3;
+    _prefectureController.text = result.prefecture;
+    _cityController.text = result.city;
+    _address1Controller.text = result.address;
   }
 
   void _applyDefault() {
@@ -61,7 +106,17 @@ class _MyAddressFormState extends State<MyAddressForm> {
   }
 
   void _onChanged() {
-    MyAddress? value;
+    final value = MyAddressFormValue(
+      postCode: _postCodeController.text,
+      prefecture: _prefectureController.text,
+      city: _cityController.text,
+      address1: _address1Controller.text,
+      address2: _address2Controller.text,
+      url: _urlController.text,
+      description: _descriptionController.text,
+      disabled: false,
+    );
+
     widget.onChanged(value);
   }
 
@@ -95,25 +150,19 @@ class _MyAddressFormState extends State<MyAddressForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const FormHeadline('住所データ'),
+
             // 郵便番号
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    controller: _postCodeController,
-                    decoration: const InputDecoration(
-                      label: Text(
-                        '郵便番号',
-                      ),
-                    ),
+            TextFormField(
+              controller: _postCodeController,
+              decoration: InputDecoration(
+                  label: const Text(
+                    '郵便番号',
                   ),
-                ),
-                const SizedBox(width: 8),
-                _PostCodeSearchButton(
-                  postCodeController: _postCodeController,
-                  onFetched: _onSearch,
-                )
-              ],
+                  suffixIcon: _PostCodeSearchButton(
+                    postCodeController: _postCodeController,
+                    onFetched: _onSearch,
+                  )),
+              inputFormatters: [FilteringTextInputFormatter.deny('-')],
             ),
             const SizedBox(height: 16),
 
@@ -176,11 +225,15 @@ class _MyAddressFormState extends State<MyAddressForm> {
             // URL
             TextFormField(
               controller: _urlController,
-              decoration: const InputDecoration(
-                label: Text(
+              decoration: InputDecoration(
+                label: const Text(
                   'URL',
                 ),
-                suffixIcon: ClipboardPasteButton(),
+                suffixIcon: ClipboardPasteButton(
+                  onPressed: (value) {
+                    _urlController.text = value;
+                  },
+                ),
               ),
             ),
           ],
@@ -218,7 +271,9 @@ class _PostCodeSearchButtonState extends ConsumerState<_PostCodeSearchButton> {
           await ref.read(postCodeSearchRepositoryProvider).search(code);
 
       widget.onFetched(result);
-    } catch (_) {}
+    } catch (_) {
+      showErrorSnackBar(message: '住所が取得できませんでした');
+    }
   }
 
   @override
@@ -228,12 +283,16 @@ class _PostCodeSearchButtonState extends ConsumerState<_PostCodeSearchButton> {
       builder: (context, _) {
         final isValid = _validate();
 
-        return IconButton.filled(
+        return IconButton(
           onPressed: isValid ? _fetch : null,
           style: IconButton.styleFrom(
+            visualDensity: const VisualDensity(vertical: 2),
             minimumSize: const Size(
               kMinInteractiveDimension + 8,
               kMinInteractiveDimension,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
             ),
           ),
           icon: const Icon(Icons.search),

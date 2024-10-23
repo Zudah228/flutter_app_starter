@@ -31,7 +31,7 @@ abstract final class MainAppThemeData {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: colorScheme.surfaceContainer,
+        fillColor: colorScheme.surfaceContainerHighest,
         border: const OutlineInputBorder(),
       ),
     );

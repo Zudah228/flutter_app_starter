@@ -20,11 +20,12 @@ PostCodeSearchResult _$PostCodeSearchResultFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PostCodeSearchResult {
-  String get zipcode => throw _privateConstructorUsedError;
-  String get prefcode => throw _privateConstructorUsedError;
-  String get address1 => throw _privateConstructorUsedError;
-  String get address2 => throw _privateConstructorUsedError;
-  String get address3 => throw _privateConstructorUsedError;
+  @JsonKey(name: 'address1')
+  String get prefecture => throw _privateConstructorUsedError;
+  @JsonKey(name: 'address2')
+  String get city => throw _privateConstructorUsedError;
+  @JsonKey(name: 'address3')
+  String get address => throw _privateConstructorUsedError;
   String get kana1 => throw _privateConstructorUsedError;
   String get kana2 => throw _privateConstructorUsedError;
   String get kana3 => throw _privateConstructorUsedError;
@@ -46,11 +47,9 @@ abstract class $PostCodeSearchResultCopyWith<$Res> {
       _$PostCodeSearchResultCopyWithImpl<$Res, PostCodeSearchResult>;
   @useResult
   $Res call(
-      {String zipcode,
-      String prefcode,
-      String address1,
-      String address2,
-      String address3,
+      {@JsonKey(name: 'address1') String prefecture,
+      @JsonKey(name: 'address2') String city,
+      @JsonKey(name: 'address3') String address,
       String kana1,
       String kana2,
       String kana3});
@@ -72,35 +71,25 @@ class _$PostCodeSearchResultCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? zipcode = null,
-    Object? prefcode = null,
-    Object? address1 = null,
-    Object? address2 = null,
-    Object? address3 = null,
+    Object? prefecture = null,
+    Object? city = null,
+    Object? address = null,
     Object? kana1 = null,
     Object? kana2 = null,
     Object? kana3 = null,
   }) {
     return _then(_value.copyWith(
-      zipcode: null == zipcode
-          ? _value.zipcode
-          : zipcode // ignore: cast_nullable_to_non_nullable
+      prefecture: null == prefecture
+          ? _value.prefecture
+          : prefecture // ignore: cast_nullable_to_non_nullable
               as String,
-      prefcode: null == prefcode
-          ? _value.prefcode
-          : prefcode // ignore: cast_nullable_to_non_nullable
+      city: null == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
               as String,
-      address1: null == address1
-          ? _value.address1
-          : address1 // ignore: cast_nullable_to_non_nullable
-              as String,
-      address2: null == address2
-          ? _value.address2
-          : address2 // ignore: cast_nullable_to_non_nullable
-              as String,
-      address3: null == address3
-          ? _value.address3
-          : address3 // ignore: cast_nullable_to_non_nullable
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
               as String,
       kana1: null == kana1
           ? _value.kana1
@@ -127,11 +116,9 @@ abstract class _$$PostCodeSearchResultImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String zipcode,
-      String prefcode,
-      String address1,
-      String address2,
-      String address3,
+      {@JsonKey(name: 'address1') String prefecture,
+      @JsonKey(name: 'address2') String city,
+      @JsonKey(name: 'address3') String address,
       String kana1,
       String kana2,
       String kana3});
@@ -150,35 +137,25 @@ class __$$PostCodeSearchResultImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? zipcode = null,
-    Object? prefcode = null,
-    Object? address1 = null,
-    Object? address2 = null,
-    Object? address3 = null,
+    Object? prefecture = null,
+    Object? city = null,
+    Object? address = null,
     Object? kana1 = null,
     Object? kana2 = null,
     Object? kana3 = null,
   }) {
     return _then(_$PostCodeSearchResultImpl(
-      zipcode: null == zipcode
-          ? _value.zipcode
-          : zipcode // ignore: cast_nullable_to_non_nullable
+      prefecture: null == prefecture
+          ? _value.prefecture
+          : prefecture // ignore: cast_nullable_to_non_nullable
               as String,
-      prefcode: null == prefcode
-          ? _value.prefcode
-          : prefcode // ignore: cast_nullable_to_non_nullable
+      city: null == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
               as String,
-      address1: null == address1
-          ? _value.address1
-          : address1 // ignore: cast_nullable_to_non_nullable
-              as String,
-      address2: null == address2
-          ? _value.address2
-          : address2 // ignore: cast_nullable_to_non_nullable
-              as String,
-      address3: null == address3
-          ? _value.address3
-          : address3 // ignore: cast_nullable_to_non_nullable
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
               as String,
       kana1: null == kana1
           ? _value.kana1
@@ -200,11 +177,9 @@ class __$$PostCodeSearchResultImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PostCodeSearchResultImpl extends _PostCodeSearchResult {
   const _$PostCodeSearchResultImpl(
-      {required this.zipcode,
-      required this.prefcode,
-      required this.address1,
-      required this.address2,
-      required this.address3,
+      {@JsonKey(name: 'address1') required this.prefecture,
+      @JsonKey(name: 'address2') required this.city,
+      @JsonKey(name: 'address3') required this.address,
       required this.kana1,
       required this.kana2,
       required this.kana3})
@@ -214,15 +189,14 @@ class _$PostCodeSearchResultImpl extends _PostCodeSearchResult {
       _$$PostCodeSearchResultImplFromJson(json);
 
   @override
-  final String zipcode;
+  @JsonKey(name: 'address1')
+  final String prefecture;
   @override
-  final String prefcode;
+  @JsonKey(name: 'address2')
+  final String city;
   @override
-  final String address1;
-  @override
-  final String address2;
-  @override
-  final String address3;
+  @JsonKey(name: 'address3')
+  final String address;
   @override
   final String kana1;
   @override
@@ -232,7 +206,7 @@ class _$PostCodeSearchResultImpl extends _PostCodeSearchResult {
 
   @override
   String toString() {
-    return 'PostCodeSearchResult(zipcode: $zipcode, prefcode: $prefcode, address1: $address1, address2: $address2, address3: $address3, kana1: $kana1, kana2: $kana2, kana3: $kana3)';
+    return 'PostCodeSearchResult(prefecture: $prefecture, city: $city, address: $address, kana1: $kana1, kana2: $kana2, kana3: $kana3)';
   }
 
   @override
@@ -240,15 +214,10 @@ class _$PostCodeSearchResultImpl extends _PostCodeSearchResult {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PostCodeSearchResultImpl &&
-            (identical(other.zipcode, zipcode) || other.zipcode == zipcode) &&
-            (identical(other.prefcode, prefcode) ||
-                other.prefcode == prefcode) &&
-            (identical(other.address1, address1) ||
-                other.address1 == address1) &&
-            (identical(other.address2, address2) ||
-                other.address2 == address2) &&
-            (identical(other.address3, address3) ||
-                other.address3 == address3) &&
+            (identical(other.prefecture, prefecture) ||
+                other.prefecture == prefecture) &&
+            (identical(other.city, city) || other.city == city) &&
+            (identical(other.address, address) || other.address == address) &&
             (identical(other.kana1, kana1) || other.kana1 == kana1) &&
             (identical(other.kana2, kana2) || other.kana2 == kana2) &&
             (identical(other.kana3, kana3) || other.kana3 == kana3));
@@ -256,8 +225,8 @@ class _$PostCodeSearchResultImpl extends _PostCodeSearchResult {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, zipcode, prefcode, address1,
-      address2, address3, kana1, kana2, kana3);
+  int get hashCode =>
+      Object.hash(runtimeType, prefecture, city, address, kana1, kana2, kana3);
 
   /// Create a copy of PostCodeSearchResult
   /// with the given fields replaced by the non-null parameter values.
@@ -279,11 +248,9 @@ class _$PostCodeSearchResultImpl extends _PostCodeSearchResult {
 
 abstract class _PostCodeSearchResult extends PostCodeSearchResult {
   const factory _PostCodeSearchResult(
-      {required final String zipcode,
-      required final String prefcode,
-      required final String address1,
-      required final String address2,
-      required final String address3,
+      {@JsonKey(name: 'address1') required final String prefecture,
+      @JsonKey(name: 'address2') required final String city,
+      @JsonKey(name: 'address3') required final String address,
       required final String kana1,
       required final String kana2,
       required final String kana3}) = _$PostCodeSearchResultImpl;
@@ -293,15 +260,14 @@ abstract class _PostCodeSearchResult extends PostCodeSearchResult {
       _$PostCodeSearchResultImpl.fromJson;
 
   @override
-  String get zipcode;
+  @JsonKey(name: 'address1')
+  String get prefecture;
   @override
-  String get prefcode;
+  @JsonKey(name: 'address2')
+  String get city;
   @override
-  String get address1;
-  @override
-  String get address2;
-  @override
-  String get address3;
+  @JsonKey(name: 'address3')
+  String get address;
   @override
   String get kana1;
   @override

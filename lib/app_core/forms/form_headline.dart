@@ -14,7 +14,7 @@ class FormHeadline extends StatelessWidget {
     final textTheme = themeData.textTheme;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Text(
         text,
         style: textTheme.titleLarge,

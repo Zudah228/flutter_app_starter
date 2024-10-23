@@ -13,27 +13,28 @@ _$PostCodeSearchResultImpl _$$PostCodeSearchResultImplFromJson(
       json,
       ($checkedConvert) {
         final val = _$PostCodeSearchResultImpl(
-          zipcode: $checkedConvert('zipcode', (v) => v as String),
-          prefcode: $checkedConvert('prefcode', (v) => v as String),
-          address1: $checkedConvert('address1', (v) => v as String),
-          address2: $checkedConvert('address2', (v) => v as String),
-          address3: $checkedConvert('address3', (v) => v as String),
+          prefecture: $checkedConvert('address1', (v) => v as String),
+          city: $checkedConvert('address2', (v) => v as String),
+          address: $checkedConvert('address3', (v) => v as String),
           kana1: $checkedConvert('kana1', (v) => v as String),
           kana2: $checkedConvert('kana2', (v) => v as String),
           kana3: $checkedConvert('kana3', (v) => v as String),
         );
         return val;
       },
+      fieldKeyMap: const {
+        'prefecture': 'address1',
+        'city': 'address2',
+        'address': 'address3'
+      },
     );
 
 Map<String, dynamic> _$$PostCodeSearchResultImplToJson(
         _$PostCodeSearchResultImpl instance) =>
     <String, dynamic>{
-      'zipcode': instance.zipcode,
-      'prefcode': instance.prefcode,
-      'address1': instance.address1,
-      'address2': instance.address2,
-      'address3': instance.address3,
+      'address1': instance.prefecture,
+      'address2': instance.city,
+      'address3': instance.address,
       'kana1': instance.kana1,
       'kana2': instance.kana2,
       'kana3': instance.kana3,

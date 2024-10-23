@@ -58,9 +58,34 @@ class $MyAddressesTable extends MyAddresses
   late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
       'updated_at', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _disabledMeta =
+      const VerificationMeta('disabled');
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, postCode, prefecture, city, address1, address2, url, updatedAt];
+  late final GeneratedColumn<bool> disabled = GeneratedColumn<bool>(
+      'disabled', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("disabled" IN (0, 1))'));
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        postCode,
+        prefecture,
+        city,
+        address1,
+        address2,
+        url,
+        updatedAt,
+        disabled,
+        description
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -116,6 +141,18 @@ class $MyAddressesTable extends MyAddresses
     } else if (isInserting) {
       context.missing(_updatedAtMeta);
     }
+    if (data.containsKey('disabled')) {
+      context.handle(_disabledMeta,
+          disabled.isAcceptableOrUnknown(data['disabled']!, _disabledMeta));
+    } else if (isInserting) {
+      context.missing(_disabledMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
     return context;
   }
 
@@ -141,6 +178,10 @@ class $MyAddressesTable extends MyAddresses
           .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
       url: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}url']),
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
+      disabled: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}disabled'])!,
     );
   }
 
@@ -159,6 +200,8 @@ class MyAddressesCompanion extends UpdateCompanion<MyAddress> {
   final Value<String> address2;
   final Value<String?> url;
   final Value<DateTime> updatedAt;
+  final Value<bool> disabled;
+  final Value<String?> description;
   const MyAddressesCompanion({
     this.id = const Value.absent(),
     this.postCode = const Value.absent(),
@@ -168,6 +211,8 @@ class MyAddressesCompanion extends UpdateCompanion<MyAddress> {
     this.address2 = const Value.absent(),
     this.url = const Value.absent(),
     this.updatedAt = const Value.absent(),
+    this.disabled = const Value.absent(),
+    this.description = const Value.absent(),
   });
   MyAddressesCompanion.insert({
     this.id = const Value.absent(),
@@ -178,12 +223,15 @@ class MyAddressesCompanion extends UpdateCompanion<MyAddress> {
     required String address2,
     this.url = const Value.absent(),
     required DateTime updatedAt,
+    required bool disabled,
+    this.description = const Value.absent(),
   })  : postCode = Value(postCode),
         prefecture = Value(prefecture),
         city = Value(city),
         address1 = Value(address1),
         address2 = Value(address2),
-        updatedAt = Value(updatedAt);
+        updatedAt = Value(updatedAt),
+        disabled = Value(disabled);
   static Insertable<MyAddress> custom({
     Expression<int>? id,
     Expression<String>? postCode,
@@ -193,6 +241,8 @@ class MyAddressesCompanion extends UpdateCompanion<MyAddress> {
     Expression<String>? address2,
     Expression<String>? url,
     Expression<DateTime>? updatedAt,
+    Expression<bool>? disabled,
+    Expression<String>? description,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -203,6 +253,8 @@ class MyAddressesCompanion extends UpdateCompanion<MyAddress> {
       if (address2 != null) 'address2': address2,
       if (url != null) 'url': url,
       if (updatedAt != null) 'updated_at': updatedAt,
+      if (disabled != null) 'disabled': disabled,
+      if (description != null) 'description': description,
     });
   }
 
@@ -214,7 +266,9 @@ class MyAddressesCompanion extends UpdateCompanion<MyAddress> {
       Value<String>? address1,
       Value<String>? address2,
       Value<String?>? url,
-      Value<DateTime>? updatedAt}) {
+      Value<DateTime>? updatedAt,
+      Value<bool>? disabled,
+      Value<String?>? description}) {
     return MyAddressesCompanion(
       id: id ?? this.id,
       postCode: postCode ?? this.postCode,
@@ -224,6 +278,8 @@ class MyAddressesCompanion extends UpdateCompanion<MyAddress> {
       address2: address2 ?? this.address2,
       url: url ?? this.url,
       updatedAt: updatedAt ?? this.updatedAt,
+      disabled: disabled ?? this.disabled,
+      description: description ?? this.description,
     );
   }
 
@@ -254,6 +310,12 @@ class MyAddressesCompanion extends UpdateCompanion<MyAddress> {
     if (updatedAt.present) {
       map['updated_at'] = Variable<DateTime>(updatedAt.value);
     }
+    if (disabled.present) {
+      map['disabled'] = Variable<bool>(disabled.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
     return map;
   }
 
@@ -267,7 +329,9 @@ class MyAddressesCompanion extends UpdateCompanion<MyAddress> {
           ..write('address1: $address1, ')
           ..write('address2: $address2, ')
           ..write('url: $url, ')
-          ..write('updatedAt: $updatedAt')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('disabled: $disabled, ')
+          ..write('description: $description')
           ..write(')'))
         .toString();
   }
@@ -294,6 +358,8 @@ typedef $$MyAddressesTableCreateCompanionBuilder = MyAddressesCompanion
   required String address2,
   Value<String?> url,
   required DateTime updatedAt,
+  required bool disabled,
+  Value<String?> description,
 });
 typedef $$MyAddressesTableUpdateCompanionBuilder = MyAddressesCompanion
     Function({
@@ -305,6 +371,8 @@ typedef $$MyAddressesTableUpdateCompanionBuilder = MyAddressesCompanion
   Value<String> address2,
   Value<String?> url,
   Value<DateTime> updatedAt,
+  Value<bool> disabled,
+  Value<String?> description,
 });
 
 class $$MyAddressesTableFilterComposer
@@ -339,6 +407,12 @@ class $$MyAddressesTableFilterComposer
 
   ColumnFilters<DateTime> get updatedAt => $composableBuilder(
       column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get disabled => $composableBuilder(
+      column: $table.disabled, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
 }
 
 class $$MyAddressesTableOrderingComposer
@@ -373,6 +447,12 @@ class $$MyAddressesTableOrderingComposer
 
   ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
       column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get disabled => $composableBuilder(
+      column: $table.disabled, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
 }
 
 class $$MyAddressesTableAnnotationComposer
@@ -407,6 +487,12 @@ class $$MyAddressesTableAnnotationComposer
 
   GeneratedColumn<DateTime> get updatedAt =>
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get disabled =>
+      $composableBuilder(column: $table.disabled, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
 }
 
 class $$MyAddressesTableTableManager extends RootTableManager<
@@ -443,6 +529,8 @@ class $$MyAddressesTableTableManager extends RootTableManager<
             Value<String> address2 = const Value.absent(),
             Value<String?> url = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
+            Value<bool> disabled = const Value.absent(),
+            Value<String?> description = const Value.absent(),
           }) =>
               MyAddressesCompanion(
             id: id,
@@ -453,6 +541,8 @@ class $$MyAddressesTableTableManager extends RootTableManager<
             address2: address2,
             url: url,
             updatedAt: updatedAt,
+            disabled: disabled,
+            description: description,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
@@ -463,6 +553,8 @@ class $$MyAddressesTableTableManager extends RootTableManager<
             required String address2,
             Value<String?> url = const Value.absent(),
             required DateTime updatedAt,
+            required bool disabled,
+            Value<String?> description = const Value.absent(),
           }) =>
               MyAddressesCompanion.insert(
             id: id,
@@ -473,6 +565,8 @@ class $$MyAddressesTableTableManager extends RootTableManager<
             address2: address2,
             url: url,
             updatedAt: updatedAt,
+            disabled: disabled,
+            description: description,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
