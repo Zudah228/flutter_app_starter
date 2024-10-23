@@ -1,0 +1,28 @@
+{
+    "Snippet: Freezed class": {
+      "scope": "dart",
+      "prefix": ["freezed"],
+      "description": "Create a Freezed class",
+      "body": [
+        "// ignore_for_file: invalid_annotation_target",
+        "",
+        "import 'package:freezed_annotation/freezed_annotation.dart';",
+        "",
+        "part '$TM_FILENAME_BASE.freezed.dart';",
+        "part '$TM_FILENAME_BASE.g.dart';",
+        "",
+        "@freezed",
+        "class ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} with _$${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} {",
+        "  const factory ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}({",
+        "    $0",
+        "  }) = _${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/};",
+        "",
+        "  const ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}._();",
+        "",
+        "  factory ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}.fromJson(Map<String, Object?> json) => _$${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}FromJson(json);",
+        "}",
+        "",
+      ]
+    }
+  }
+  

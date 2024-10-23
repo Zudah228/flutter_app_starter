@@ -1,0 +1,11 @@
+targets:
+  $default:
+    builders:
+      freezed:
+        generate_for:
+          include:
+            - lib/domain/**/*.dart
+      json_serializable:
+        options:
+          explicit_to_json: true
+          checked: true

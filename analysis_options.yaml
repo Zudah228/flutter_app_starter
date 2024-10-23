@@ -1,0 +1,12 @@
+include: package:flutter_lints/flutter.yaml
+analyzer: 
+  plugins:
+    - custom_lint
+  exclude: 
+    - lib/generated/**
+    - lib/**/*.freezed.dart
+    - lib/**/*.g.dart
+    - lib/**/*.chopper.dart
+linter:
+  rules:
+    prefer_relative_imports: true

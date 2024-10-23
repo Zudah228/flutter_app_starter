@@ -1,0 +1,12 @@
+{
+  "Snippet: themeData": {
+    "scope": "dart",
+    "prefix": ["themedata", "finalthemedata", "final themedata"],
+    "description": "Create a Provider",
+    "body": [
+      "final themeData = Theme.of(context);",
+      "final textTheme = themeData.textTheme;",
+      "final colorScheme = themeData.colorScheme;",
+      "",
+    ]
+  },}

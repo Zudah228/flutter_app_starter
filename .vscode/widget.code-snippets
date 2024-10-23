@@ -1,0 +1,88 @@
+{
+  "Snippet: StatelessWidget": {
+    "scope": "dart",
+    "prefix": ["stless"],
+    "description": "Create an StatelessWidget",
+    "body": [
+      "import 'package:flutter/material.dart';",
+      "",
+      "class ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} extends StatelessWidget {",
+      "  const ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}({super.key});",
+      "",
+      "  @override",
+      "  Widget build(BuildContext context) {",
+      "    return Container();",
+      "  }",
+      "}",
+      "$0"
+    ]
+  },
+  "Snippet: StatefulWidget": {
+    "scope": "dart",
+    "prefix": ["statefulWidget", "stful"],
+    "description": "Create an StatefulWidget",
+    "body": [
+      "import 'package:flutter/material.dart';",
+      "",
+      "class ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} extends StatefulWidget {",
+      "  const ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}({super.key});",
+      "",
+      "  @override",
+      "  State<StatefulWidget> createState() => _${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}State();",
+      "}",
+      "",
+      "class _${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}State extends State<${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}> {",
+      "  @override",
+      "  Widget build(BuildContext context) {",
+      "    return Container();",
+      "  }",
+      "}",
+      "$0"
+    ]
+  },
+
+  // ConsumerWidget
+  "Snippet: ConsumerWidget": {
+    "scope": "dart",
+    "prefix": ["consumerWidget", "stless"],
+    "description": "Create an ConsumerWidget",
+    "body": [
+      "import 'package:flutter/material.dart';",
+      "import 'package:flutter_riverpod/flutter_riverpod.dart';",
+      "",
+      "class ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} extends ConsumerWidget {",
+      "  const ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}({super.key});",
+      "",
+      "  @override",
+      "  Widget build(BuildContext context, WidgetRef ref) {",
+      "    return Container();",
+      "  }",
+      "}",
+      "$0"
+    ]
+  },
+  "Snippet: ConsumerStatefulWidget": {
+    "scope": "dart",
+    "prefix": ["statefulConsumerWidget", "stful"],
+    "description": "Create an ConsumerStatefulWidget",
+    "body": [
+      "import 'package:flutter/material.dart';",
+      "import 'package:flutter_riverpod/flutter_riverpod.dart';",
+      "",
+      "class ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} extends ConsumerStatefulWidget {",
+      "  const ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}({super.key});",
+      "",
+      "  @override",
+      "  ConsumerState<ConsumerStatefulWidget> createState() => _${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}State();",
+      "}",
+      "",
+      "class _${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}State extends ConsumerState<${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}> {",
+      "  @override",
+      "  Widget build(BuildContext context) {",
+      "    return Container();",
+      "  }",
+      "}",
+      "$0"
+    ]
+  }
+}

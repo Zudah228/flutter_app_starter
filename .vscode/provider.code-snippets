@@ -1,0 +1,45 @@
+{
+  "Snippet: Provider": {
+    "scope": "dart",
+    "prefix": ["provider"],
+    "description": "Create a Provider",
+    "body": [
+      "import 'package:riverpod/riverpod.dart';",
+      "import 'package:riverpod_annotation/riverpod_annotation.dart';",
+      "",
+      "part '$TM_FILENAME_BASE.g.dart';",
+      "",
+      "@riverpod",
+      "${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} ${TM_FILENAME_BASE/(.*)/${1:/camelcase}/}(Ref ref, ${1:int familyArg}) {",
+      "  return  ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(ref);",
+      "}",
+      "",
+      "class ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} {",
+      "  const ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(this._ref);",
+      "  final Ref _ref;",
+      "",
+      "  $0",
+      "}",
+      "",
+    ]
+  },
+  "Snippet: FutureProvider": {
+    "scope": "dart",
+    "prefix": ["provider", "futureprovider"],
+    "description": "Create a FutureProvider",
+    "body": [
+      "import 'dart:async';",
+      "",
+      "import 'package:riverpod/riverpod.dart';",
+      "import 'package:riverpod_annotation/riverpod_annotation.dart';",
+      "",
+      "part '$TM_FILENAME_BASE.g.dart';",
+      "",
+      "@riverpod",
+      "FutureOr<${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}> ${TM_FILENAME_BASE/(.*)/${1:/camelcase}/}(Ref ref, ${1:int familyArg}) async {",
+      "  return  ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(ref);",
+      "}",
+      "",
+    ]
+  },
+}

@@ -1,0 +1,74 @@
+name: rich_memo_app
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.3
+
+variables:
+  - &chopper_version ^8.0.3
+  - &riverpod_version ^2.6.1
+  - &drift_version ^2.21.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # HTTP Client
+  chopper: *chopper_version
+
+  # Architecture
+  riverpod: *riverpod_version
+  flutter_riverpod: *riverpod_version
+  riverpod_annotation: *riverpod_version
+
+  # System
+  shared_preferences: ^2.3.2
+
+  # UI
+  cupertino_icons: ^1.0.8
+  cached_network_image: ^3.4.1
+  flutter_cache_manager: ^3.4.1
+
+  # Extend Dart
+  intl: ^0.19.0
+  freezed_annotation: ^2.4.1
+  cross_file: ^0.3.4+1
+  uuid: ^4.4.0
+  hashids2: ^2.0.0
+  pub_semver: ^2.1.4
+  async: ^2.11.0
+  meta: ^1.12.0
+  path: ^1.9.0
+  collection: ^1.18.0
+
+  # Local DB
+  drift: *drift_version
+  drift_flutter: ^0.1.0
+  path_provider: ^2.1.2
+
+  # Firebase
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.3.1
+  cloud_firestore: ^5.4.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Linter
+  custom_lint: 
+  flutter_lints: ^4.0.0
+  riverpod_lint: *riverpod_version
+
+  # Code Generator
+  build_runner: ^2.4.9
+  freezed: ^2.5.7
+  json_serializable: ^6.8.0
+  chopper_generator: *chopper_version
+  riverpod_generator: *riverpod_version
+  drift_dev: *drift_version
+
+flutter:
+  uses-material-design: true
