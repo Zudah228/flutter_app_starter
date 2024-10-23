@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../app_core/global_keys.dart';
 import '../app_core/theme/theme.dart';
-import 'home/home_page.dart';
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  const MainApp({super.key, required this.home});
+
+  final Widget home;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class MainApp extends StatelessWidget {
       scaffoldMessengerKey: globalScaffoldMessengerKey,
       theme: MainAppThemeData.light,
       darkTheme: MainAppThemeData.dark,
-      home: const HomePage(),
+      home: home,
     );
   }
 }

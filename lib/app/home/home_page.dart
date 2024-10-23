@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app_core/routes/no_animation_route.dart';
+import '../../domain/initial_page_cache/initial_page_cache_repository.dart';
 import '../my_address/my_address_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -42,17 +46,23 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class _Card extends StatelessWidget {
+class _Card extends ConsumerWidget {
   const _Card({required this.route, required this.title});
 
   final Route<dynamic> Function() route;
   final Widget title;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     void onTap() {
+      final route = this.route();
+
+      if (route.settings.name case final routeName?) {
+        unawaited(ref.read(initialPageCacheRepositoryProvider).save(routeName));
+      }
+
       Navigator.of(context).pushAndRemoveUntil(
-        route(),
+        route,
         (_) => false,
       );
     }

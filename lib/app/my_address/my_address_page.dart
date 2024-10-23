@@ -8,14 +8,14 @@ import 'my_address_register_page.dart';
 import 'providers/my_address_list.dart';
 
 class MyAddressPage extends ConsumerWidget {
-  const MyAddressPage._();
+  const MyAddressPage({super.key});
 
   static const routeName = '/my_address';
 
   static Route<void> route() {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
-      builder: (_) => const MyAddressPage._(),
+      builder: (_) => const MyAddressPage(),
     );
   }
 

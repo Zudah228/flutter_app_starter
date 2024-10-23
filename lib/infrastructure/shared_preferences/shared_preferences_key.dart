@@ -2,6 +2,7 @@
 
 enum SharedPreferencesKey {
   theme_color,
+  initial_page,
   ;
 
   String get keyName => name;
