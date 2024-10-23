@@ -3,9 +3,6 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  cloud_firestore
-  firebase_auth
-  firebase_core
   sqlite3_flutter_libs
 )
 
