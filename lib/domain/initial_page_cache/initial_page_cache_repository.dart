@@ -11,6 +11,7 @@ InitialPageCacheRepository initialPageCacheRepository(Ref ref) {
   return InitialPageCacheRepository(ref);
 }
 
+/// 初期表示ページのパスをキャッシュする
 class InitialPageCacheRepository
     extends BaseSharedPreferencesRepository<String> {
   const InitialPageCacheRepository(super.ref);

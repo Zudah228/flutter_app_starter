@@ -2,6 +2,7 @@ import 'package:riverpod/riverpod.dart';
 
 import '../shared_preferences.dart';
 
+/// SharedPreferences の基本的な CRUD を提供できる抽象クラス
 abstract class BaseSharedPreferencesRepository<T> {
   const BaseSharedPreferencesRepository(this.ref);
 
