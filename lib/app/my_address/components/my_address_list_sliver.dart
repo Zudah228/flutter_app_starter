@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../app_core/async/empty_message.dart';
+import '../../../app_core/ui_parts/async/empty_message.dart';
 import '../../../domain/my_address/my_address.dart';
 import 'my_address_card.dart';
 

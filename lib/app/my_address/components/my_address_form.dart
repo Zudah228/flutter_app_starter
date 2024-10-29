@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../app_core/forms/clipboard_paste_button.dart';
-import '../../../app_core/forms/form_headline.dart';
-import '../../../app_core/snack_bar.dart';
+import '../../../app_core/ui_parts/forms/clipboard_paste_button.dart';
+import '../../../app_core/ui_parts/forms/form_headline.dart';
+import '../../../app_core/ui_parts/snack_bar.dart';
 import '../../../domain/my_address/my_address.dart';
 import '../../../domain/post_code_search/post_code_search_repository.dart';
 import '../../../domain/post_code_search/post_code_search_result.dart';

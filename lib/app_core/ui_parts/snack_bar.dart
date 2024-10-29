@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './global_keys.dart';
+import '../global_keys.dart';
 
 enum _SnackBarMessageType {
   info,

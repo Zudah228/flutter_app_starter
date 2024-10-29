@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../app_core/app_bars/root_app_bar.dart';
-import '../../app_core/async/async_value_view.dart';
+import '../../app_core/ui_parts/app_bars/root_app_bar.dart';
+import '../../app_core/ui_parts/async/async_value_view.dart';
 import 'components/my_address_list_sliver.dart';
 import 'my_address_register_page.dart';
 import 'providers/my_address_list.dart';
