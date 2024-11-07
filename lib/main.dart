@@ -4,13 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app/app.dart';
 import 'app/home/home_page.dart';
 import 'app/my_address/my_address_page.dart';
-import 'dependency_injection/di_container.dart';
+import 'dependency_injection/dependency_injection.dart';
 import 'domain/initial_page_cache/initial_page_cache_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final container = await DIContainer.getContainer();
+  final overrides = await DependencyInjection.overrides();
+
+  final container = ProviderContainer(
+    overrides: overrides,
+  );
 
   final home = await _home(container);
 
