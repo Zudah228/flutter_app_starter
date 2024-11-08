@@ -28,7 +28,7 @@ void main() async {
 
 Future<Widget> _home(ProviderContainer container) async {
   final initialPageCache =
-      await container.read(initialPageCacheRepositoryProvider).fetch();
+      container.read(initialPageCacheRepositoryProvider).fetch();
 
   final Widget home;
 
