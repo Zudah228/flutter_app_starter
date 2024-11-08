@@ -1,7 +1,7 @@
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../infrastructure/shared_preferences/data_source/base_shared_preferences_repository.dart';
+import '../../infrastructure/shared_preferences/base_shared_preferences_service.dart';
 import '../../infrastructure/shared_preferences/shared_preferences_key.dart';
 
 part 'initial_page_cache_repository.g.dart';
@@ -12,8 +12,7 @@ InitialPageCacheRepository initialPageCacheRepository(Ref ref) {
 }
 
 /// 初期表示ページのパスをキャッシュする
-class InitialPageCacheRepository
-    extends BaseSharedPreferencesRepository<String> {
+class InitialPageCacheRepository extends BaseSharedPreferencesService<String> {
   const InitialPageCacheRepository(super.ref);
 
   @override

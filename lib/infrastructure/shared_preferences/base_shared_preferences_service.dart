@@ -1,10 +1,10 @@
 import 'package:riverpod/riverpod.dart';
 
-import '../shared_preferences.dart';
+import 'shared_preferences.dart';
 
 /// SharedPreferences の基本的な CRUD を提供できる抽象クラス
-abstract class BaseSharedPreferencesRepository<T> {
-  const BaseSharedPreferencesRepository(this.ref);
+abstract class BaseSharedPreferencesService<T> {
+  const BaseSharedPreferencesService(this.ref);
 
   final Ref ref;
 
@@ -14,7 +14,7 @@ abstract class BaseSharedPreferencesRepository<T> {
     await ref.read(sharedPreferencesInfraProvider).save(key, value);
   }
 
-  Future<T?> fetch() async {
+  T? fetch() {
     return ref.read(sharedPreferencesInfraProvider).fetch(key);
   }
 
