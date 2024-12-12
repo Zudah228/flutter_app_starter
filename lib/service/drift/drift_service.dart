@@ -3,15 +3,15 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'drift_database.dart';
 
-part 'drift_infrastructure.g.dart';
+part 'drift_service.g.dart';
 
 @riverpod
-DriftInfrastructure driftInfrastructure(Ref ref) {
-  return DriftInfrastructure(AppDriftDatabase.instance);
+DriftService driftService(Ref ref) {
+  return DriftService(AppDriftDatabase.instance);
 }
 
-class DriftInfrastructure {
-  const DriftInfrastructure(this._db);
+class DriftService {
+  const DriftService(this._db);
 
   final AppDriftDatabase _db;
 

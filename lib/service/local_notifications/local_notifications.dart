@@ -11,8 +11,8 @@ import '../platform_permission/platform_permission.dart';
 part 'local_notifications.g.dart';
 
 @riverpod
-LocalNotificationsInfrastructure localNotificationsInfrastructure(Ref ref) {
-  final instance = LocalNotificationsInfrastructure(
+LocalNotificationsService localNotificationsService(Ref ref) {
+  final instance = LocalNotificationsService(
     ref,
     FlutterLocalNotificationsPlugin(),
   );
@@ -29,8 +29,8 @@ const _kAndroidChannel = AndroidNotificationChannel(
   importance: Importance.max,
 );
 
-class LocalNotificationsInfrastructure {
-  LocalNotificationsInfrastructure(
+class LocalNotificationsService {
+  LocalNotificationsService(
     this._ref,
     this._flutterLocalNotificationsPlugin,
   );
@@ -48,7 +48,7 @@ class LocalNotificationsInfrastructure {
     await _flutterLocalNotificationsPlugin.cancelAll();
 
     final enable = await _ref
-        .read(platformPermissionInfrastructureProvider)
+        .read(platformPermissionServiceProvider)
         .notification
         .enable();
 

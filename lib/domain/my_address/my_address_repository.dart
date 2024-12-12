@@ -2,8 +2,8 @@ import 'package:drift/drift.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../infrastructure/drift/drift_database.dart';
-import '../../infrastructure/drift/drift_infrastructure.dart';
+import '../../service/drift/drift_database.dart';
+import '../../service/drift/drift_service.dart';
 import 'my_address.dart';
 
 part 'my_address_repository.g.dart';
@@ -17,7 +17,7 @@ class MyAddressRepository {
   const MyAddressRepository(this._ref);
   final Ref _ref;
 
-  AppDriftDatabase get _db => _ref.read(driftInfrastructureProvider).db;
+  AppDriftDatabase get _db => _ref.read(driftServiceProvider).db;
   $MyAddressesTable get _table => _db.myAddresses;
 
   Future<int> insert({

@@ -7,12 +7,12 @@ import '../../util/logger.dart';
 part 'platform_permission.g.dart';
 
 @riverpod
-PermissionInfrastructure platformPermissionInfrastructure(Ref ref) {
-  return const PermissionInfrastructure();
+PermissionService platformPermissionService(Ref ref) {
+  return const PermissionService();
 }
 
-class PermissionInfrastructure {
-  const PermissionInfrastructure();
+class PermissionService {
+  const PermissionService();
 
   PermissionRequestManager get notification {
     return PermissionRequestManager(Permission.notification);

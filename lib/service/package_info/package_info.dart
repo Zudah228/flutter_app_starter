@@ -5,19 +5,19 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'package_info.g.dart';
 
 @riverpod
-PackageInfoInfrastructure packageInfoInfrastructure(Ref ref) {
+PackageInfoService packageInfoService(Ref ref) {
   throw UnimplementedError();
 }
 
-class PackageInfoInfrastructure {
-  const PackageInfoInfrastructure(this._packageInfo);
+class PackageInfoService {
+  const PackageInfoService(this._packageInfo);
 
   final PackageInfo _packageInfo;
 
-  static Future<PackageInfoInfrastructure> init() async {
+  static Future<PackageInfoService> init() async {
     final packageInfo = await PackageInfo.fromPlatform();
 
-    return PackageInfoInfrastructure(packageInfo);
+    return PackageInfoService(packageInfo);
   }
 
   String get version => _packageInfo.version;

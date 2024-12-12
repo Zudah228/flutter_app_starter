@@ -11,14 +11,14 @@ abstract class BaseSharedPreferencesService<T> {
   SharedPreferencesKey get key;
 
   Future<void> save(T value) async {
-    await ref.read(sharedPreferencesInfraProvider).save(key, value);
+    await ref.read(sharedPreferencesServiceProvider).save(key, value);
   }
 
   T? fetch() {
-    return ref.read(sharedPreferencesInfraProvider).fetch(key);
+    return ref.read(sharedPreferencesServiceProvider).fetch(key);
   }
 
   Future<void> remove() async {
-    await ref.read(sharedPreferencesInfraProvider).remove(key);
+    await ref.read(sharedPreferencesServiceProvider).remove(key);
   }
 }

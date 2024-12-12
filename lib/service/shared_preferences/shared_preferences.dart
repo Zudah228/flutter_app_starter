@@ -9,15 +9,15 @@ export 'shared_preferences_key.dart';
 part 'shared_preferences.g.dart';
 
 @Riverpod(keepAlive: false)
-SharedPreferencesInfra sharedPreferencesInfra(Ref ref) {
+SharedPreferencesService sharedPreferencesService(Ref ref) {
   throw UnimplementedError();
 }
 
-class SharedPreferencesInfra {
-  SharedPreferencesInfra(this._prefs);
+class SharedPreferencesService {
+  SharedPreferencesService(this._prefs);
 
-  static Future<SharedPreferencesInfra> init() async {
-    return SharedPreferencesInfra(await SharedPreferences.getInstance());
+  static Future<SharedPreferencesService> init() async {
+    return SharedPreferencesService(await SharedPreferences.getInstance());
   }
 
   final SharedPreferences _prefs;

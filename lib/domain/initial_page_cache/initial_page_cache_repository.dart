@@ -1,8 +1,8 @@
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../infrastructure/shared_preferences/base_shared_preferences_service.dart';
-import '../../infrastructure/shared_preferences/shared_preferences_key.dart';
+import '../../service/shared_preferences/base_shared_preferences_service.dart';
+import '../../service/shared_preferences/shared_preferences_key.dart';
 
 part 'initial_page_cache_repository.g.dart';
 

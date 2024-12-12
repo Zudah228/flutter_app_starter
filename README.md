@@ -25,7 +25,7 @@ lib
 │   ├── initial_page_cache
 │   ├── my_address
 │   └── post_code_search
-├── infrastructure
+├── service
 │   ├── drift
 │   ├── http
 │   │   └── interceptors
@@ -134,8 +134,8 @@ Riverpod の `ProviderOverride` の配列を返す関数を実装する。
 
 `ProviderContainer` の提供でもいいが、`observers` をここで渡すと意義がブレるので、`ProviderOverride` の配列飲み扱う。
 
-## infrastructure 層
-`system` や `service` などでよく命名される層。
+## service 層
+`system` や `infrastructure` などでよく命名される層。
 
 SharedPreferences のインスタンスや、Web API のエンドポイント、必要とあらばそれらを使いやすく変更した関数などを実装する。
 
