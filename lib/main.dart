@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart' as logger;
 
 import 'app/app.dart';
 import 'app/home/home_page.dart';
@@ -9,6 +10,12 @@ import 'domain/initial_page_cache/initial_page_cache_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  logger.Logger.root.level = logger.Level.ALL;
+  logger.Logger.root.onRecord.listen((record) {
+    // ignore: avoid_print
+    print('${record.level.name}: ${record.time}: ${record.message}');
+  });
 
   final overrides = await DependencyInjection.overrides();
 
