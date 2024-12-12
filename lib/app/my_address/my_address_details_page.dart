@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../app_core/ui_parts/snack_bar.dart';
-import '../../domain/my_address/my_address.dart';
+import '../../repository/my_address/models/my_address.dart';
 import '../../util/extensions/string_extension.dart';
 
 typedef MyAddressDetailsPageArguments = _PageArguments;

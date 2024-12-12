@@ -6,7 +6,7 @@ import 'app/app.dart';
 import 'app/home/home_page.dart';
 import 'app/my_address/my_address_page.dart';
 import 'dependency_injection/dependency_injection.dart';
-import 'domain/initial_page_cache/initial_page_cache_repository.dart';
+import 'repository/initial_page_cache/initial_page_cache_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -4,7 +4,7 @@ targets:
       freezed:
         generate_for:
           include:
-            - lib/domain/**/*.dart
+            - lib/**/models/*.dart
       json_serializable:
         options:
           explicit_to_json: true

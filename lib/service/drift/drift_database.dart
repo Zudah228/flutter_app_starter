@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
-import '../../domain/my_address/my_address.dart';
+import '../../repository/my_address/models/my_address.dart';
 
 part 'drift_database.g.dart';
 

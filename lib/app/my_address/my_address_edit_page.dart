@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app_core/ui_parts/snack_bar.dart';
-import '../../domain/my_address/my_address.dart';
-import '../../domain/my_address/my_address_repository.dart';
+import '../../repository/my_address/models/my_address.dart';
+import '../../repository/my_address/my_address_repository.dart';
 import 'components/my_address_form.dart';
 
 typedef MyAddressEditPageArguments = _PageArguments;

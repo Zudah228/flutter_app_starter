@@ -1,8 +1,8 @@
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../domain/my_address/my_address.dart';
-import '../../../domain/my_address/my_address_repository.dart';
+import '../../../repository/my_address/models/my_address.dart';
+import '../../../repository/my_address/my_address_repository.dart';
 
 part 'my_address_list.g.dart';
 

@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../service/drift/drift_database.dart';
 import '../../service/drift/drift_service.dart';
-import 'my_address.dart';
+import 'models/my_address.dart';
 
 part 'my_address_repository.g.dart';
 

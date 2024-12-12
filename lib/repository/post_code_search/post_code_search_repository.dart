@@ -2,7 +2,7 @@ import 'package:chopper/chopper.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'post_code_search_result.dart';
+import 'models/post_code_search_result.dart';
 
 part 'post_code_search_repository.chopper.dart';
 part 'post_code_search_repository.g.dart';

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app_core/ui_parts/routes/no_animation_route.dart';
-import '../../domain/initial_page_cache/initial_page_cache_repository.dart';
+import '../../repository/initial_page_cache/initial_page_cache_repository.dart';
 import '../my_address/my_address_page.dart';
 import 'components/home_drawer.dart';
 
