@@ -22,6 +22,7 @@ lib
 ├── dependency_injection
 │   └── dependency_injection.dart
 ├── domain
+├── repository
 │   ├── initial_page_cache
 │   ├── my_address
 │   └── post_code_search
@@ -113,26 +114,20 @@ lib
 原始的なコンポーネントのパーツを設置する。<br>
 ディレクトリ分割のルールは特にない。
 
-## domain
-ビジネスロジックの記述。
 
-データクラスとしての `model`、`repository`、必要とあれば `service` （repository の集約）も実装する。
+## repository
+外部のストレージなどへのアクセスとして切り出す。
+
+データクラスとしての `model`、`repository`
 
 ```
-├── domain
+├── repository
 │   ├── my_address
 │   │   ├── models
 │   │   │   └── my_address.dart
 │   │   └── my_address_repository.dart
 ```
 
-## dependency_injection
-依存性の注入を行う箇所。
-`dependency_injection.dart` のみ設置
-
-Riverpod の `ProviderOverride` の配列を返す関数を実装する。
-
-`ProviderContainer` の提供でもいいが、`observers` をここで渡すと意義がブレるので、`ProviderOverride` の配列飲み扱う。
 
 ## service 層
 `system` や `infrastructure` などでよく命名される層。
@@ -141,6 +136,25 @@ SharedPreferences のインスタンスや、Web API のエンドポイント、
 
 ビジネスロジックに関わることは書かないのがルールではあるが、パッケージの都合や、自動生成の機能などが絡むと判断が難しくなる。<br>
 開発効率を上げるために、ある程度「ビジネスロジックに関わることは書かない」という制約を崩すことも許容する。
+
+## domain
+複数の Repository や Service をまとめて、ビジネスロジックとして切り出したい時に使用する層。
+
+```
+├── domain
+│   ├── auth
+│   │   ├── sign_in.dart
+│   │   └── sign_out.dart
+```
+
+
+## dependency_injection
+依存性の注入を行う箇所。
+`dependency_injection.dart` のみ設置
+
+Riverpod の `ProviderOverride` の配列を返す関数を実装する。
+
+`ProviderContainer` の提供でもいいが、`observers` をここで渡すと意義がブレるので、`ProviderOverride` の配列飲み扱う。
 
 ## util 層
 ビジネスロジックに関わらない、コード簡略化を目的とした実装を設置する。<br>
